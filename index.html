@@ -234,7 +234,8 @@
         <div class="footer-content">
             <div class="footer-column">
                 <h3>Contact Us</h3>
-                <form name="contact" method="POST" data-netlify="true" class="footer-form">
+                <form name="contact" method="POST" data-netlify="true" action="/success.html" class="footer-form">
+                    <input type="hidden" name="form-name" value="contact">
                     <input type="email" name="email" placeholder="Your Email" required>
                     <textarea name="message" placeholder="Your Message" required></textarea>
                     <button type="submit" class="cta-button">Send Message</button>
@@ -273,7 +274,8 @@
                 </div>
                 <div class="newsletter-signup">
                     <h4>Get Special Offers</h4>
-                    <form name="newsletter" method="POST" data-netlify="true" class="footer-form">
+                    <form name="newsletter" method="POST" data-netlify="true" action="/success.html" class="footer-form">
+                        <input type="hidden" name="form-name" value="newsletter">
                         <input type="email" name="email" placeholder="Enter your email" required>
                         <button type="submit" class="cta-button">Sign Up</button>
                     </form>
