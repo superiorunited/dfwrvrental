@@ -491,29 +491,37 @@ section h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 8rem 2rem 2rem;
     text-align: center;
+    margin-top: 2rem;
 }
 
 .success-content {
     max-width: 600px;
     margin: 0 auto;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .success-content i {
     font-size: 4rem;
     color: var(--secondary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .success-content h1 {
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
 }
 
 .success-content p {
     margin-bottom: 2rem;
     color: var(--dark-gray);
+    font-size: 1.2rem;
+    line-height: 1.6;
 }
 
 .success-content .cta-button {
