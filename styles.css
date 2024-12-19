@@ -30,16 +30,17 @@ header {
 }
 
 .navbar {
-    background: white;
-    padding: 1rem;
+    padding: 0.5rem 5%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: var(--white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo img {
-    height: 50px;
+    height: 120px;
+    width: auto;
+    padding: 1rem;
 }
 
 .desktop-nav {
@@ -122,6 +123,10 @@ header {
     .mobile-menu .cta-button {
         margin-top: 0.5rem;
         text-align: center;
+    }
+
+    .logo img {
+        height: 80px;
     }
 }
 
