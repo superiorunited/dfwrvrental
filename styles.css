@@ -723,23 +723,62 @@ section h2 {
 
 /* Locations Page Styles */
 .locations-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/dallas-skyline.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('images/dallas-skyline.jpg');
     background-size: cover;
-    background-position: center;
-    padding: 8rem 2rem 4rem;
+    background-position: center 30%;
+    background-attachment: fixed;
+    padding: 10rem 2rem 6rem;
     text-align: center;
     color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.locations-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+}
+
+.locations-hero .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .locations-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .locations-hero p {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     max-width: 800px;
     margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .locations-hero {
+        padding: 8rem 1.5rem 4rem;
+        background-attachment: scroll;
+    }
+
+    .locations-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .locations-hero p {
+        font-size: 1.2rem;
+    }
 }
 
 .locations-grid {
