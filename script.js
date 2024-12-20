@@ -1,12 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
     // Get form elements
-    const bookingForm = document.getElementById('rv-booking-form');
+    const bookingForm = document.querySelector('form[name="booking"]');
     const pickupDate = document.getElementById('pickup-date');
     const returnDate = document.getElementById('return-date');
+    const rvType = document.getElementById('rv-type');
     const totalDaysElement = document.getElementById('total-days');
     const dailyRateElement = document.getElementById('daily-rate');
     const totalPriceElement = document.getElementById('total-price');
+    const totalDaysHidden = document.getElementById('total-days-hidden');
+    const dailyRateHidden = document.getElementById('daily-rate-hidden');
+    const totalPriceHidden = document.getElementById('total-price-hidden');
 
     // Set minimum date to today
     const today = new Date();
@@ -14,9 +18,20 @@ document.addEventListener('DOMContentLoaded', function() {
     pickupDate.min = todayString;
     returnDate.min = todayString;
 
-    // Calculate pricing based on duration
-    function calculatePrice(days) {
-        const baseRate = 130;
+    // Get base price from RV type
+    function getBasePrice(rvType) {
+        const prices = {
+            'towable': 130,
+            'large-towable': 175,
+            'midsize': 195,
+            'sprinter': 285
+        };
+        return prices[rvType] || 130;
+    }
+
+    // Calculate pricing based on duration and RV type
+    function calculatePrice(days, selectedRvType) {
+        const baseRate = getBasePrice(selectedRvType);
         let dailyRate;
 
         if (days >= 7) {
@@ -37,18 +52,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update price summary
     function updatePriceSummary() {
-        if (pickupDate.value && returnDate.value) {
+        if (pickupDate.value && returnDate.value && rvType.value) {
             const start = new Date(pickupDate.value);
             const end = new Date(returnDate.value);
             const diffTime = Math.abs(end - start);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
             if (diffDays > 0) {
-                const pricing = calculatePrice(diffDays);
+                const pricing = calculatePrice(diffDays, rvType.value);
                 
+                // Update visible elements
                 totalDaysElement.textContent = diffDays;
                 dailyRateElement.textContent = `$${pricing.dailyRate.toFixed(2)}`;
                 totalPriceElement.textContent = `$${pricing.totalPrice.toFixed(2)}`;
+
+                // Update hidden fields
+                totalDaysHidden.value = diffDays;
+                dailyRateHidden.value = pricing.dailyRate.toFixed(2);
+                totalPriceHidden.value = pricing.totalPrice.toFixed(2);
             }
         }
     }
@@ -57,18 +78,25 @@ document.addEventListener('DOMContentLoaded', function() {
     pickupDate.addEventListener('change', function() {
         // Set minimum return date to pickup date
         returnDate.min = this.value;
+        if (returnDate.value && returnDate.value < this.value) {
+            returnDate.value = this.value;
+        }
         updatePriceSummary();
     });
 
     returnDate.addEventListener('change', updatePriceSummary);
+    rvType.addEventListener('change', updatePriceSummary);
 
-    // Form submission
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Here you would typically send the form data to a server
-        alert('Thank you for your booking request! We will contact you shortly to confirm your reservation.');
-    });
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+    }
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -79,48 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 target.scrollIntoView({
                     behavior: 'smooth'
                 });
+                // Close mobile menu if open
+                if (mobileNav && mobileNav.classList.contains('active')) {
+                    mobileNav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                }
             }
         });
     });
-
-    // Mobile menu functionality
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    console.log('Menu button:', menuBtn);
-    console.log('Mobile menu:', mobileMenu);
-
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Menu button clicked');
-            mobileMenu.classList.toggle('active');
-            console.log('Menu active:', mobileMenu.classList.contains('active'));
-        });
-
-        // Close menu when clicking a link
-        const menuLinks = document.querySelectorAll('.mobile-menu a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.mobile-nav') && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
-            }
-        });
-
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-                mobileMenu.classList.remove('active');
-            }
-        });
-    } else {
-        console.log('Menu elements not found');
-    }
 });
