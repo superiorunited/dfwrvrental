@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (diffDays > 0) {
                 const pricing = calculatePrice(diffDays, rvType.value);
+                const selectedRvName = rvType.options[rvType.selectedIndex].text;
                 
                 // Update visible elements
                 totalDaysElement.textContent = diffDays;
@@ -70,6 +71,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalDaysHidden.value = diffDays;
                 dailyRateHidden.value = pricing.dailyRate.toFixed(2);
                 totalPriceHidden.value = pricing.totalPrice.toFixed(2);
+
+                // Create a formatted summary for the form submission
+                const summary = `
+Booking Summary:
+---------------
+RV Selected: ${selectedRvName}
+Number of Days: ${diffDays}
+Daily Rate: $${pricing.dailyRate.toFixed(2)}
+Total Price: $${pricing.totalPrice.toFixed(2)}
+
+Dates:
+Pickup: ${new Date(pickupDate.value).toLocaleDateString()}
+Return: ${new Date(returnDate.value).toLocaleDateString()}
+
+${diffDays >= 3 ? (diffDays >= 7 ? '20% weekly discount applied' : '10% extended stay discount applied') : 'Standard rate applied'}
+`;
+                
+                // Update the message field with the summary
+                const messageField = document.getElementById('message');
+                if (messageField.value.trim() === '') {
+                    messageField.value = summary;
+                } else {
+                    // If there are existing notes, append the summary
+                    messageField.value = `${summary}\n\nAdditional Notes:\n${messageField.value}`;
+                }
             }
         }
     }
