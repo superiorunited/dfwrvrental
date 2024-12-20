@@ -150,29 +150,49 @@
         <section id="booking" class="booking-section">
             <h2>Book Your Adventure</h2>
             <div class="booking-form">
-                <form id="rv-booking-form">
+                <form name="booking" method="POST" data-netlify="true" action="success.html" class="booking-form">
+                    <input type="hidden" name="form-name" value="booking">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
                     <div class="form-group">
                         <label for="pickup-date">Pickup Date</label>
-                        <input type="date" id="pickup-date" required>
+                        <input type="date" id="pickup-date" name="pickup-date" required>
                     </div>
                     <div class="form-group">
                         <label for="return-date">Return Date</label>
-                        <input type="date" id="return-date" required>
+                        <input type="date" id="return-date" name="return-date" required>
                     </div>
                     <div class="form-group">
                         <label for="rv-type">RV Type</label>
-                        <select id="rv-type" required>
+                        <select id="rv-type" name="rv-type" required>
                             <option value="">Select an RV</option>
-                            <option value="towable" data-price="130">Towable RV - $130/night</option>
-                            <option value="large-towable" data-price="175">Large Towable - $175/night</option>
-                            <option value="midsize" data-price="195">Mid-Size Drivable - $195/night</option>
-                            <option value="sprinter" data-price="285">Sprinter Van - $285/night</option>
+                            <option value="towable">Towable RV - $130/night</option>
+                            <option value="large-towable">Large Towable - $175/night</option>
+                            <option value="midsize">Mid-Size Drivable - $195/night</option>
+                            <option value="sprinter">Sprinter Van - $285/night</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Additional Notes</label>
+                        <textarea id="message" name="message" rows="3"></textarea>
                     </div>
                     <div id="price-summary" class="price-summary">
                         <p>Total Days: <span id="total-days">0</span></p>
                         <p>Daily Rate: <span id="daily-rate">$0</span></p>
                         <p>Total Price: <span id="total-price">$0</span></p>
+                        <input type="hidden" name="total-days" id="total-days-hidden">
+                        <input type="hidden" name="daily-rate" id="daily-rate-hidden">
+                        <input type="hidden" name="total-price" id="total-price-hidden">
                     </div>
                     <button type="submit" class="cta-button">Reserve Now</button>
                 </form>
@@ -296,6 +316,18 @@
     </form>
     <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
         <input type="email" name="email" />
+    </form>
+    <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="tel" name="phone" />
+        <input type="date" name="pickup-date" />
+        <input type="date" name="return-date" />
+        <select name="rv-type"></select>
+        <textarea name="message"></textarea>
+        <input type="hidden" name="total-days" />
+        <input type="hidden" name="daily-rate" />
+        <input type="hidden" name="total-price" />
     </form>
 </body>
 </html>
